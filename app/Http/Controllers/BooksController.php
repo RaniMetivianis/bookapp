@@ -21,7 +21,21 @@ class BooksController extends BaseController
     }else {
         return response()->json(['message' => 'Book not found'], 404);
     }
-}  
+}
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required', 
+            'description' => 'required',
+            'author' => 'required'
+        ]);
+    $book = Book::create($request->only(['title', 'description', 'author'])
+        );
 
+        return response()->json([
+            'created' -> true,
+            'data' -> $book
+        ], 201);
+    }
 }
 
