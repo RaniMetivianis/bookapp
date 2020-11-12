@@ -32,6 +32,25 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        DB::table('authors')->insert([
+            'id' => '1',
+            'name' => 'Rani',
+            'gender' => 'female',
+            'biography' => 'Collage in Universitas Brawijaya',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('authors')->insert([
+            'id' => '2',
+            'name' => 'Rizky',
+            'gender' => 'male',
+            'biography' => 'author of Laskar Pelangi ',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        
     }
 
 }

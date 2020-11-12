@@ -2,63 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-class BooksController extends BaseController
+class AuthorsController extends BaseController
 {
     public function index()
     {
-    return Book::all();
+    return Author::all();
     }  
 
     public function show($id)
     {
-    $buku = Book::find($id);
-    if($buku){
-        return $buku;
+    $penulis = Author::find($id);
+    if($penulis){
+        return $penulis;
     }else {
-        return response()->json(['message' => 'Book not found'], 404);
+        return response()->json(['message' => 'Author not found'], 404);
     }
-}
+    }
+
     public function store (Request $request)
     {
         $this->validate($request, [
-            'title' => 'required', 
-            'description' => 'required',
-            'author' => 'required'
+            'id' => 'required',
+            'name' => 'required',
+            'gender' => 'required',
+            'biography' => 'required'
         ]);
 
-    $book = Book::create(
-        $request->only(['title', 'description', 'author'])
+    $penulis = Author::create(
+        $request->only(['id', 'name', 'gender', 'biography'])
         );
 
         return response()->json([
             'created' => true,
-            'data' => $book
+            'data' => $penulis
         ], 201);
     }
 
     public function update(Request $request, $id)
     {
         try {
-            $book = Book::findOrFail($id);
+            $penulis = Author::findOrFail($id);
         } catch (ModelNotFoundException $e){
             return response()->json([
-                'message' => 'book not found'
+                'message' => 'author not found'
             ], 404);
         }
 
-        $book->fill(
-            $request->only(['title', 'description', 'author'])
+        $penulis->fill(
+            $request->only(['id', 'name', 'gender', 'biography'])
         );
-        $book->save();
+        $penulis->save();
 
         return response()->json([
             'update' => true,
-            'data'  => $book
+            'data'  => $penulis
         ], 200);
 
     }
@@ -66,20 +68,22 @@ class BooksController extends BaseController
     public function destroy($id)
     {
         try{
-            $book = Book::findOrFail($id);
+            $penulis = Author::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => [
-                    'message' => 'book not found'
+                    'message' => 'author not found'
                 ]
                 ], 404);
         }
 
-        $book->delete();
+        $penulis->delete();
 
         return response()->json([
             'deleted' => true
         ], 200);
     }
+
 }
+
 
